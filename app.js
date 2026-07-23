@@ -36,6 +36,7 @@ const LANG = {
         youreBooked: 'Está marcado!', at: 'às', backToHome: 'Voltar ao Início',
         bookingFailed: 'Não foi possível completar a marcação. Tenta novamente.',
         slotsFailed: 'Não foi possível carregar os horários.',
+        servicesFailed: 'Não foi possível carregar os serviços.',
         photoTooLarge: 'A foto excede o limite de 8 MB.',
         invalidPhoto: 'O ficheiro tem de ser uma imagem JPG, PNG ou WebP.',
         photoPreviewAlt: 'Pré-visualização da foto carregada',
@@ -82,6 +83,7 @@ const LANG = {
         youreBooked: "You're booked!", at: 'at', backToHome: 'Back to Home',
         bookingFailed: 'Could not complete the booking. Please try again.',
         slotsFailed: 'Could not load available times.',
+        servicesFailed: 'Could not load services.',
         photoTooLarge: 'The photo exceeds the 8 MB limit.',
         invalidPhoto: 'The file must be a JPG, PNG or WebP image.',
         photoPreviewAlt: 'Uploaded photo preview',
@@ -169,14 +171,20 @@ function goHome() {
 
 function fetchServices() {
     fetch('/api/services')
-        .then((res) => res.json())
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('services request failed');
+            }
+            return res.json();
+        })
         .then((data) => {
             services = data.services || [];
             renderServiceList();
             renderServiceGrid();
         })
         .catch(() => {
-            document.getElementById('service-list').innerHTML = '';
+            document.getElementById('service-list').innerHTML = `<li class="service-row-loading">${t('servicesFailed')}</li>`;
+            document.getElementById('service-grid').innerHTML = `<p>${t('servicesFailed')}</p>`;
         });
 }
 
@@ -237,7 +245,12 @@ function goToTime() {
     container.innerHTML = `<div class="loading">${t('loadingSlots')}</div>`;
 
     fetch(`/api/slots?date=${encodeURIComponent(selectedDate)}`)
-        .then((res) => res.json())
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('slots request failed');
+            }
+            return res.json();
+        })
         .then((data) => {
             const slots = data.slots || [];
             if (slots.length === 0) {
@@ -396,15 +409,15 @@ function analysePhoto() {
         .then((res) => res.json().then((data) => ({ status: res.status, data })))
         .then(({ status, data }) => {
             if (status === 429) {
-                showHairstyleError(data.message || t('rateLimited'));
+                showHairstyleError(t('rateLimited'));
                 return;
             }
             if (status === 504) {
-                showHairstyleError(data.message || t('analysisTimeout'));
+                showHairstyleError(t('analysisTimeout'));
                 return;
             }
             if (status >= 400) {
-                showHairstyleError(data.message || t('analysisFailed'));
+                showHairstyleError(t('analysisFailed'));
                 return;
             }
             renderHairstyleResults(data.analysis);
