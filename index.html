@@ -1,1 +1,291 @@
-<!doctype html><title>Barbearia BH</title>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia BH — Porto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="lang-toggle" role="group" aria-label="Idioma">
+    <button type="button" class="lang-option" data-lang="pt" onclick="setLanguage('pt')">PT</button>
+    <button type="button" class="lang-option" data-lang="en" onclick="setLanguage('en')">EN</button>
+</div>
+
+<header class="topbar">
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-overlay" onclick="toggleNav()">
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+        <span class="sr-only" data-i18n="menu">Menu</span>
+    </button>
+</header>
+
+<nav id="nav-overlay" class="nav-overlay" hidden>
+    <button type="button" class="nav-close" onclick="toggleNav()" data-i18n-aria-label="closeMenu" aria-label="Fechar menu">✕</button>
+    <ul class="nav-links">
+        <li><a href="#hero" onclick="closeNavTo('hero')" data-i18n="navHome">Início</a></li>
+        <li><a href="#services" onclick="closeNavTo('services')" data-i18n="navServices">Serviços</a></li>
+        <li><a href="#hairstyle-finder" onclick="closeNavTo('hairstyle-finder')" data-i18n="navHairstyle">Encontra o Teu Corte</a></li>
+        <li><a href="#reviews" onclick="closeNavTo('reviews')" data-i18n="navReviews">Avaliações</a></li>
+        <li><a href="#location" onclick="closeNavTo('location')" data-i18n="navLocation">Onde Estamos</a></li>
+        <li><button type="button" class="nav-book-btn" onclick="closeNavAndBook()" data-i18n="navBook">Marcar</button></li>
+    </ul>
+</nav>
+
+<button type="button" class="booking-cta" onclick="goTo('page-service')" data-i18n-aria-label="bookOnline" aria-label="Marcar online">
+    <span data-i18n="floatingBook">Marcar</span>
+</button>
+
+<main id="page-home" class="page active">
+
+    <section id="hero" class="hero">
+        <img class="hero-photo" src="images/hero.jpg" alt="Interior da Barbearia BH, Porto" loading="eager">
+        <div class="hero-mark">
+            <p class="hero-wordmark">Barbearia BH</p>
+            <p class="hero-tagline" data-i18n="heroTagline">Cortes · Barba · Estilo — Porto</p>
+        </div>
+    </section>
+
+    <section id="services" class="section section--paper">
+        <h2 data-i18n="servicesTitle">Serviços</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+        <ul id="service-list" class="service-list">
+            <li class="service-row-loading" data-i18n="loadingServices">A carregar serviços...</li>
+        </ul>
+    </section>
+
+    <section id="hairstyle-finder" class="section section--ink hairstyle-section">
+        <h2 data-i18n="findStyleTitle">Encontra o Teu Corte</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="hairstyle-card">
+
+            <div id="hairstyle-consent-view" class="hairstyle-view">
+                <p class="consent-text" data-i18n="consentText">
+                    A tua foto é enviada a um modelo de terceiros para análise, não é guardada no
+                    nosso servidor e é descartada assim que recebemos a resposta.
+                </p>
+                <button type="button" class="next-btn" onclick="acceptConsent()" data-i18n="consentAccept">
+                    Aceito, continuar
+                </button>
+            </div>
+
+            <div id="hairstyle-upload-view" class="hairstyle-view hidden">
+                <p class="upload-subtitle" data-i18n="uploadSubtitle">Carrega uma foto nítida do teu rosto.</p>
+                <label class="upload-zone">
+                    <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" capture="environment" onchange="photoSelected(event)">
+                    <div id="uploadPlaceholder" class="upload-placeholder">
+                        <span class="upload-icon" aria-hidden="true">📷</span>
+                        <p data-i18n="tapToUpload">Toca para carregar uma foto</p>
+                        <small data-i18n="uploadHint">JPG, PNG ou WebP · Máx. 8 MB</small>
+                    </div>
+                    <img id="photoPreview" class="photo-preview hidden" alt="">
+                </label>
+
+                <div class="preference-fields">
+                    <div class="preference-field">
+                        <label for="maintenanceInput" data-i18n="maintenanceLabel">Manutenção</label>
+                        <select id="maintenanceInput">
+                            <option value="" data-i18n="preferNoAnswer">Sem preferência</option>
+                            <option value="low" data-i18n="maintenanceLow">Baixa</option>
+                            <option value="medium" data-i18n="maintenanceMedium">Média</option>
+                            <option value="high" data-i18n="maintenanceHigh">Alta</option>
+                        </select>
+                    </div>
+                    <div class="preference-field">
+                        <label for="beardInput" data-i18n="beardLabel">Barba</label>
+                        <select id="beardInput">
+                            <option value="" data-i18n="preferNoAnswer">Sem preferência</option>
+                            <option value="yes" data-i18n="beardYes">Sim</option>
+                            <option value="no" data-i18n="beardNo">Não</option>
+                            <option value="trimmed" data-i18n="beardTrimmed">Aparada</option>
+                        </select>
+                    </div>
+                    <div class="preference-field">
+                        <label for="lengthInput" data-i18n="lengthLabel">Comprimento</label>
+                        <select id="lengthInput">
+                            <option value="" data-i18n="preferNoAnswer">Sem preferência</option>
+                            <option value="shorter" data-i18n="lengthShorter">Mais curto</option>
+                            <option value="similar" data-i18n="lengthSimilar">Semelhante</option>
+                            <option value="longer" data-i18n="lengthLonger">Mais comprido</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="analyseBtn" class="next-btn" onclick="analysePhoto()" disabled data-i18n="analyseBtn">
+                    Analisar Foto
+                </button>
+            </div>
+
+            <div id="hairstyle-loading-view" class="hairstyle-view hidden">
+                <p class="loading" role="status" aria-live="polite" data-i18n="analysingPhoto">
+                    A analisar a tua foto — isto pode demorar alguns segundos...
+                </p>
+            </div>
+
+            <div id="hairstyle-results-view" class="hairstyle-view hidden">
+                <h3 data-i18n="hairstyleReport">O Teu Relatório de Estilo</h3>
+                <div id="resultsContent" class="results-content" role="status" aria-live="polite"></div>
+                <button type="button" class="try-again-link" onclick="resetHairstyleFinder()" data-i18n="tryAnotherPhoto">
+                    Analisar outra foto
+                </button>
+            </div>
+
+            <div id="hairstyle-error-view" class="hairstyle-view hidden">
+                <p id="hairstyleErrorText" class="error-text" role="status" aria-live="assertive"></p>
+                <button type="button" class="next-btn" onclick="resetHairstyleFinder()" data-i18n="tryAgain">
+                    Tentar novamente
+                </button>
+                <button type="button" class="try-again-link" onclick="closeNavTo('services')" data-i18n="seeServicesInstead">
+                    Ver lista de serviços
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="reviews" class="section section--paper">
+        <h2 data-i18n="reviewsTitle">Avaliações</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+        <div class="review-carousel">
+            <div id="review-0" class="client-review-card active">
+                <div class="stars" aria-hidden="true">★★★★★</div>
+                <p class="review-text">I really enjoyed having my hair cut at Barbershop Donk. It's fairly-priced and the barbers know what they are doing. Even though it was my first visit to this particular shop, I felt comfortable and trusted them to do a good job, and they did!</p>
+                <p class="review-author">James Briscoe</p>
+            </div>
+            <div id="review-1" class="client-review-card">
+                <div class="stars" aria-hidden="true">★★★★★</div>
+                <p class="review-text">I'm a tourist visiting from New York and had a great experience at this barbershop. The barber gave me an excellent cut and was very friendly and professional. Communication was easy since he speaks both Portuguese and English, which I really appreciated.</p>
+                <p class="review-author">E.</p>
+            </div>
+            <div id="review-2" class="client-review-card">
+                <div class="stars" aria-hidden="true">★★★★★</div>
+                <p class="review-text">The best barbershop in Marquês and one of the best in the whole city! 👌 Thank you so much, Paulo and Danila, for the excellent service and friendliness as always.</p>
+                <p class="review-author">Matheus Troche</p>
+            </div>
+            <!-- NOTE: these quotes name "Barbershop Donk" / barbers Paulo and Danila — real
+                 customer testimonials, kept verbatim. Revisit once the client confirms whether
+                 the site's public name is "Barbearia BH" or "Donk". -->
+            <div class="review-nav">
+                <button type="button" class="review-nav-btn" onclick="changeReview(-1)" data-i18n-aria-label="prevReview" aria-label="Avaliação anterior">←</button>
+                <button type="button" class="review-nav-btn" onclick="changeReview(1)" data-i18n-aria-label="nextReview" aria-label="Avaliação seguinte">→</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="location" class="section section--ink">
+        <h2 data-i18n="locationTitle">Onde Estamos</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+        <div class="location-details">
+            <div class="contact-block">
+                <span class="contact-label" data-i18n="addressLabel">Morada</span>
+                <a class="contact-value contact-value--link" id="addressLink"
+                   href="https://www.google.com/maps?q=Rua+de+Costa+Cabral+82,+4200-129+Porto,+Portugal"
+                   target="_blank" rel="noopener">Rua de Costa Cabral 82, 4200-129 Porto</a>
+            </div>
+            <div class="contact-block">
+                <span class="contact-label" data-i18n="phoneLabel">Telefone</span>
+                <a class="contact-value contact-value--link" id="phoneLink" href="#">TODO telefone</a>
+            </div>
+            <div class="contact-block">
+                <span class="contact-label" data-i18n="hoursLabel">Horário</span>
+                <span class="contact-value" data-i18n="hoursLine">Segunda–Sexta, 10h–20h · Sábado, 9h–20h · Encerrado ao domingo</span>
+            </div>
+            <div class="location-links">
+                <a id="instagramLink" href="#" target="_blank" rel="noopener">Instagram (TODO)</a>
+                <a id="whatsappLink" href="#" target="_blank" rel="noopener">WhatsApp (TODO)</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <p class="footer-wordmark">Barbearia BH</p>
+        <p class="footer-copy">© 2026 Barbearia BH — <span data-i18n="footerRights">Todos os direitos reservados.</span></p>
+    </footer>
+</main>
+
+<div id="page-service" class="page">
+    <div class="page-card">
+        <button type="button" class="back-btn" onclick="goHome()" data-i18n="back">← Voltar</button>
+        <p class="progress" data-i18n="progressStep1">Passo 1 de 4</p>
+        <h2 data-i18n="chooseService">Escolher um Serviço</h2>
+        <div id="service-grid" class="service-grid">
+            <p data-i18n="loadingServices">A carregar serviços...</p>
+        </div>
+    </div>
+</div>
+
+<div id="page-date" class="page">
+    <div class="page-card">
+        <button type="button" class="back-btn" onclick="goTo('page-service')" data-i18n="back">← Voltar</button>
+        <p class="progress" data-i18n="progressStep2">Passo 2 de 4</p>
+        <h2 data-i18n="pickDate">Escolher uma Data</h2>
+        <div class="date-picker-wrapper">
+            <input type="date" id="dateInput" class="date-input" onchange="dateSelected(this.value)">
+        </div>
+        <button id="dateNextBtn" class="next-btn" onclick="goToTime()" disabled data-i18n="next">Seguinte →</button>
+    </div>
+</div>
+
+<div id="page-time" class="page">
+    <div class="page-card">
+        <button type="button" class="back-btn" onclick="goTo('page-date')" data-i18n="back">← Voltar</button>
+        <p class="progress" data-i18n="progressStep3">Passo 3 de 4</p>
+        <h2 data-i18n="pickTime">Escolher uma Hora</h2>
+        <div id="slotsContainer" class="slots-grid">
+            <div class="loading" data-i18n="loadingSlots">A carregar horários disponíveis...</div>
+        </div>
+    </div>
+</div>
+
+<div id="page-review" class="page">
+    <div class="page-card">
+        <button type="button" class="back-btn" onclick="goTo('page-time')" data-i18n="back">← Voltar</button>
+        <p class="progress" data-i18n="progressStep4">Passo 4 de 4</p>
+        <h2 data-i18n="reviewConfirm">Rever e Confirmar</h2>
+        <div class="review-card">
+            <div class="review-row">
+                <span class="review-label" data-i18n="labelService">Serviço</span>
+                <span class="review-value" id="review-service"></span>
+            </div>
+            <div class="review-row">
+                <span class="review-label" data-i18n="labelDate">Data</span>
+                <span class="review-value" id="review-date"></span>
+            </div>
+            <div class="review-row">
+                <span class="review-label" data-i18n="labelTime">Hora</span>
+                <span class="review-value" id="review-time"></span>
+            </div>
+            <div class="review-row">
+                <span class="review-label" data-i18n="labelPrice">Preço</span>
+                <span class="review-value" id="review-price"></span>
+            </div>
+        </div>
+        <div class="name-field">
+            <label for="nameInput"><span data-i18n="yourName">O teu nome</span> <span class="optional" data-i18n="optional">(opcional)</span></label>
+            <input type="text" id="nameInput" class="name-input" placeholder="ex.: João Silva" data-i18n-placeholder="namePlaceholder">
+        </div>
+        <div class="review-actions">
+            <button type="button" class="change-btn" onclick="goTo('page-service')" data-i18n="change">Alterar</button>
+            <button id="confirmBtn" type="button" class="confirm-btn" onclick="confirmBooking()" data-i18n="confirm">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+<div id="page-confirmed" class="page">
+    <div class="page-card centered">
+        <div class="success-icon" aria-hidden="true">✅</div>
+        <h2 data-i18n="youreBooked">Está marcado!</h2>
+        <p class="confirm-text">
+            <strong id="confirm-service"></strong><br>
+            <span id="confirm-date"></span> <span data-i18n="at">às</span> <span id="confirm-time"></span>
+        </p>
+        <button type="button" class="next-btn" onclick="goHome()" data-i18n="backToHome">Voltar ao Início</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
