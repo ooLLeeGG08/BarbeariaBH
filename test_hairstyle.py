@@ -1,3 +1,4 @@
+import base64
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -25,27 +26,30 @@ class ParseResultTest(unittest.TestCase):
 
 class AnalyzeHairstyleTest(unittest.TestCase):
     def test_sends_image_and_returns_parsed_result(self):
-        mock_block = MagicMock()
-        mock_block.type = "text"
-        mock_block.text = '{"status": "ok", "recommendations": []}'
         mock_response = MagicMock()
-        mock_response.content = [mock_block]
+        mock_response.json.return_value = {
+            'candidates': [{'content': {'parts': [{'text': '{"status": "ok", "recommendations": []}'}]}}]
+        }
+        mock_response.raise_for_status.return_value = None
 
-        mock_client = MagicMock()
-        mock_client.messages.create.return_value = mock_response
-
-        with patch.object(hairstyle, '_get_client', return_value=mock_client):
-            result = hairstyle.analyze_hairstyle(
-                b'fake-bytes', 'image/jpeg', preferences={'maintenance': 'low'}, language='pt'
-            )
+        with patch.dict('os.environ', {'GEMINI_API_KEY': 'test-key'}):
+            with patch('hairstyle.requests.post', return_value=mock_response) as mock_post:
+                result = hairstyle.analyze_hairstyle(
+                    b'fake-bytes', 'image/jpeg', preferences={'maintenance': 'low'}, language='pt'
+                )
 
         self.assertEqual(result, {"status": "ok", "recommendations": []})
-        _, kwargs = mock_client.messages.create.call_args
-        self.assertEqual(kwargs['model'], hairstyle.MODEL)
-        image_block = kwargs['messages'][0]['content'][0]
-        self.assertEqual(image_block['type'], 'image')
-        self.assertEqual(image_block['source']['media_type'], 'image/jpeg')
-        self.assertEqual(image_block['source']['data'], 'ZmFrZS1ieXRlcw==')  # base64 of b'fake-bytes'
+        _, kwargs = mock_post.call_args
+        self.assertEqual(kwargs['timeout'], 30)
+        self.assertEqual(kwargs['headers']['x-goog-api-key'], 'test-key')
+        image_part = kwargs['json']['contents'][0]['parts'][1]
+        self.assertEqual(image_part['inline_data']['mime_type'], 'image/jpeg')
+        self.assertEqual(image_part['inline_data']['data'], base64.b64encode(b'fake-bytes').decode('utf-8'))
+
+    def test_raises_when_api_key_missing(self):
+        with patch.dict('os.environ', {}, clear=True):
+            with self.assertRaises(ValueError):
+                hairstyle.analyze_hairstyle(b'fake-bytes', 'image/jpeg')
 
 
 if __name__ == '__main__':

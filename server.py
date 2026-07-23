@@ -4,7 +4,7 @@ import traceback
 from dotenv import load_dotenv
 load_dotenv()
 
-import anthropic
+import requests
 
 import config
 from booking import get_available_slots, create_booking
@@ -104,21 +104,24 @@ def hairstyle():
     try:
         result = analyze_hairstyle(image_bytes, mime_type, preferences=preferences, language=language)
         return jsonify({'status': 'success', 'analysis': result})
-    except anthropic.APITimeoutError:
+    except requests.exceptions.Timeout:
         return jsonify({'error': 'timeout', 'message': 'A análise demorou demasiado tempo.'}), 504
-    except anthropic.RateLimitError:
-        return jsonify({
-            'error': 'upstream_rate_limited',
-            'message': 'Serviço de análise sobrecarregado. Tenta novamente.',
-        }), 503
-    except anthropic.APIStatusError as e:
+    except requests.exceptions.HTTPError as e:
+        if e.response is not None and e.response.status_code == 429:
+            return jsonify({
+                'error': 'upstream_rate_limited',
+                'message': 'Serviço de análise sobrecarregado. Tenta novamente.',
+            }), 503
         print(f"Hairstyle API error: {e}")
         return jsonify({'error': 'analysis_failed', 'message': 'Não foi possível analisar a foto.'}), 502
-    except anthropic.APIConnectionError:
+    except requests.exceptions.ConnectionError:
         return jsonify({
             'error': 'connection_failed',
             'message': 'Falha de ligação ao serviço de análise.',
         }), 502
+    except requests.exceptions.RequestException as e:
+        print(f"Hairstyle API error: {e}")
+        return jsonify({'error': 'analysis_failed', 'message': 'Não foi possível analisar a foto.'}), 502
 
 
 @app.errorhandler(413)
