@@ -464,25 +464,60 @@ button {
     text-align: left;
 }
 
-.result-card {
-    border: 1px dotted var(--tan);
-    border-radius: 4px;
-    padding: 1rem;
-    margin-bottom: 1rem;
+.face-shape-block {
+    margin-bottom: 1.4rem;
 }
 
-.result-card h4 {
+.face-shape-name {
     font-family: var(--font-display);
-    margin: 0 0 0.4rem;
     color: var(--sienna);
+    margin: 0 0 0.6rem;
 }
 
-.result-card p {
-    margin: 0.3rem 0;
+.recommended-styles-label {
+    font-family: var(--font-display);
+    color: var(--sienna);
+    margin: 0 0 0.6rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.recommendation-row {
+    border-left: 2px solid var(--sienna);
+    margin-bottom: 0.6rem;
+}
+
+.disclosure-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(250, 250, 248, 0.06);
+    border: none;
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-align: left;
+}
+
+.disclosure-icon {
+    color: var(--sienna);
+    font-weight: 700;
+    margin-left: 12px;
+}
+
+.disclosure-panel {
+    padding: 12px 14px 16px;
+}
+
+.disclosure-panel p {
+    margin: 0.4rem 0;
     font-size: 0.9rem;
 }
 
-.result-card a {
+.disclosure-panel a {
     display: inline-block;
     margin-top: 0.6rem;
     color: var(--sienna);

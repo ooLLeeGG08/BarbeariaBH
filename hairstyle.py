@@ -15,12 +15,12 @@ Analyse the uploaded photo strictly for: face shape, hair type and texture, and 
 
 You must not comment on attractiveness, age, weight, ethnicity, or anything unrelated to hair and styling. You must not attempt to identify who the person is.
 
-If the image contains no clearly visible face, respond with status "no_face" and an empty recommendations list.
-If the image contains more than one person, respond with status "multiple_faces" and an empty recommendations list.
-Otherwise respond with status "ok" and 2 to 3 recommendations.
+If the image contains no clearly visible face, respond with status "no_face", an empty "face_shape", an empty "face_shape_why", and an empty recommendations list.
+If the image contains more than one person, respond with status "multiple_faces", an empty "face_shape", an empty "face_shape_why", and an empty recommendations list.
+Otherwise respond with status "ok", identify the face shape (oval, round, square, heart, diamond, or oblong) in "face_shape", give one sentence explaining why that shape was identified in "face_shape_why", and give 2 to 3 recommendations.
 
 Respond ONLY with a single JSON object in exactly this shape — no prose, no markdown fences, no explanation before or after it:
-{"status": "ok" | "no_face" | "multiple_faces", "recommendations": [{"style_name": "...", "why": "...", "upkeep": "...", "closest_service": "..."}]}"""
+{"status": "ok" | "no_face" | "multiple_faces", "face_shape": "...", "face_shape_why": "...", "recommendations": [{"style_name": "...", "why": "...", "upkeep": "...", "closest_service": "..."}]}"""
 
 
 def _build_user_text(preferences, language):

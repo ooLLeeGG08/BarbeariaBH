@@ -12,6 +12,7 @@ const LANG = {
         uploadSubtitle: 'Carrega uma foto nítida do teu rosto.',
         tapToUpload: 'Toca para carregar uma foto', uploadHint: 'JPG, PNG ou WebP · Máx. 8 MB',
         maintenanceLabel: 'Manutenção', beardLabel: 'Barba', lengthLabel: 'Comprimento',
+        faceShapeLabel: 'Formato do Rosto:', whyLabel: 'Porquê', recommendedStylesLabel: 'Estilos Recomendados',
         preferNoAnswer: 'Sem preferência',
         maintenanceLow: 'Baixa', maintenanceMedium: 'Média', maintenanceHigh: 'Alta',
         beardYes: 'Sim', beardNo: 'Não', beardTrimmed: 'Aparada',
@@ -59,6 +60,7 @@ const LANG = {
         uploadSubtitle: 'Upload a clear photo of your face.',
         tapToUpload: 'Tap to upload a photo', uploadHint: 'JPG, PNG or WebP · Max 8 MB',
         maintenanceLabel: 'Maintenance', beardLabel: 'Beard', lengthLabel: 'Length',
+        faceShapeLabel: 'Face Shape:', whyLabel: 'Why', recommendedStylesLabel: 'Recommended Styles',
         preferNoAnswer: 'No preference',
         maintenanceLow: 'Low', maintenanceMedium: 'Medium', maintenanceHigh: 'High',
         beardYes: 'Yes', beardNo: 'No', beardTrimmed: 'Trimmed',
@@ -432,6 +434,14 @@ function showHairstyleError(message) {
     document.getElementById('hairstyleErrorText').textContent = message;
 }
 
+function toggleDisclosure(button) {
+    const panel = document.getElementById(button.getAttribute('aria-controls'));
+    const expanded = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    panel.classList.toggle('hidden', expanded);
+    button.querySelector('.disclosure-icon').textContent = expanded ? '»' : '⌄';
+}
+
 function renderHairstyleResults(analysis) {
     if (!analysis || analysis.status === 'no_face') {
         showHairstyleError(t('noFaceDetected'));
@@ -448,12 +458,57 @@ function renderHairstyleResults(analysis) {
 
     const container = document.getElementById('resultsContent');
     container.innerHTML = '';
-    analysis.recommendations.forEach((rec) => {
+
+    if (analysis.face_shape) {
+        const faceShapeBlock = document.createElement('div');
+        faceShapeBlock.className = 'face-shape-block';
+        faceShapeBlock.innerHTML = `<h4 class="face-shape-name">${t('faceShapeLabel')} ${analysis.face_shape}</h4>`;
+
+        if (analysis.face_shape_why) {
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'disclosure-toggle';
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.setAttribute('aria-controls', 'face-shape-why-panel');
+            toggle.innerHTML = `<span class="disclosure-label">${t('whyLabel')}</span><span class="disclosure-icon" aria-hidden="true">»</span>`;
+            toggle.onclick = () => toggleDisclosure(toggle);
+
+            const panel = document.createElement('div');
+            panel.id = 'face-shape-why-panel';
+            panel.className = 'disclosure-panel hidden';
+            panel.innerHTML = `<p>${analysis.face_shape_why}</p>`;
+
+            faceShapeBlock.appendChild(toggle);
+            faceShapeBlock.appendChild(panel);
+        }
+
+        container.appendChild(faceShapeBlock);
+    }
+
+    const stylesLabel = document.createElement('h4');
+    stylesLabel.className = 'recommended-styles-label';
+    stylesLabel.textContent = t('recommendedStylesLabel');
+    container.appendChild(stylesLabel);
+
+    analysis.recommendations.forEach((rec, index) => {
         const matchedService = findServiceByName(rec.closest_service);
-        const card = document.createElement('div');
-        card.className = 'result-card';
-        card.innerHTML = `
-            <h4>${rec.style_name}</h4>
+        const panelId = `rec-detail-${index}`;
+
+        const row = document.createElement('div');
+        row.className = 'recommendation-row';
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'disclosure-toggle';
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-controls', panelId);
+        toggle.innerHTML = `<span class="disclosure-label">${index + 1}. ${rec.style_name}</span><span class="disclosure-icon" aria-hidden="true">»</span>`;
+        toggle.onclick = () => toggleDisclosure(toggle);
+
+        const panel = document.createElement('div');
+        panel.id = panelId;
+        panel.className = 'disclosure-panel hidden';
+        panel.innerHTML = `
             <p>${rec.why}</p>
             <p><strong>${t('maintenanceLabel')}:</strong> ${rec.upkeep}</p>
         `;
@@ -467,8 +522,11 @@ function renderHairstyleResults(analysis) {
             }
             goTo('page-service');
         };
-        card.appendChild(link);
-        container.appendChild(card);
+        panel.appendChild(link);
+
+        row.appendChild(toggle);
+        row.appendChild(panel);
+        container.appendChild(row);
     });
 
     showHairstyleView('hairstyle-results-view');
