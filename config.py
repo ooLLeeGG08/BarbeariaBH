@@ -1,13 +1,14 @@
 """Static content and business data for Barbearia BH, Porto.
 
-TODO: confirm the business name with the client — the reviews and the only
-logo asset supplied so far read "Donk / Donk — The Barbearshop", but the
-client asked to keep "Barbearia BH" until they confirm tomorrow. Phone,
-Instagram, and WhatsApp are still missing and marked TODO below. Service
-descriptions and durations are placeholders: the service list itself
-(names and prices) was confirmed by the client as "same as noble website
-for now", but noble's site only ever had names and prices — no
-descriptions or durations — so those two fields are estimates pending
+Business name confirmed as "Barbearia BH" by the client. Note: the three
+client-supplied reviews below (see index.html's #reviews section) name
+"Barbershop Donk" and barbers "Paulo and Danila" — real customer quotes,
+kept verbatim, even though they predate/differ from the confirmed name.
+
+TODO: service descriptions and durations are placeholders: the service
+list itself (names and prices) was confirmed by the client as "same as
+noble website for now", but noble's site only ever had names and prices —
+no descriptions or durations — so those two fields are estimates pending
 real client input.
 """
 
@@ -34,8 +35,8 @@ BUSINESS_HOURS = {
 BUSINESS_INFO = {
     "name": "Barbearia BH",
     "address": "Rua de Costa Cabral 82, 4200-129 Porto, Portugal",
-    # TODO: get phone, Instagram, and WhatsApp from the client.
-    "phone": None,
-    "instagram": None,
-    "whatsapp": None,
+    "phone": "+351 914 520 888",
+    "instagram": "https://instagram.com/barbeariabhnoporto",
+    # WhatsApp assumed to be the same number as `phone` — confirm with the client.
+    "whatsapp": "https://wa.me/351914520888",
 }

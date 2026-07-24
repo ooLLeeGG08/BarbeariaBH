@@ -70,10 +70,9 @@ Serves the site at `http://localhost:8080`.
 
 ## TODO before launch
 
-- **Confirm the business name.** The client asked to keep "Barbearia BH" for now, but the reviews and the only logo asset supplied so far read "Donk / Donk — The Barbearshop". Confirm with the client and update the wordmark, page title, footer, and `alt` text throughout if it changes.
-- Get phone number, Instagram handle, and WhatsApp number from the client (`config.py`'s `BUSINESS_INFO` and the `#location` section in `index.html`).
 - Confirm service descriptions and durations — the current list reuses noble's names/prices as instructed, but has no real descriptions or durations yet.
-- Create `.env` and `credentials.json` (client is doing this after the site is built) — see Setup below. `CALENDAR_ID` is `alexgondar08@gmail.com`.
+- WhatsApp number (`config.py`'s `BUSINESS_INFO.whatsapp`) is assumed to be the same as the phone number — confirm with the client.
+- `.env` and `credentials.json` are already set up locally with real `GEMINI_API_KEY`, `CALENDAR_ID` (`alexgondar08@gmail.com`), and Google service-account credentials — both real integrations (Calendar availability, Gemini hairstyle analysis) have been verified working end-to-end.
 
 ## Deploying to Render
 
