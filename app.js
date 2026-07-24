@@ -202,7 +202,7 @@ function renderServiceList() {
             <span class="service-row-icon" aria-hidden="true">✂</span>
             <span class="service-row-body">
                 <span>
-                    <span class="service-row-name">${service.name}</span>
+                    <span class="service-row-name">${serviceDisplayName(service)}</span>
                     <span class="service-row-desc">${service.description}</span>
                 </span>
                 <span class="service-row-price">€${service.price}</span>
@@ -220,7 +220,7 @@ function renderServiceGrid() {
         btn.type = 'button';
         btn.className = 'service-card';
         btn.onclick = () => selectService(service.id);
-        btn.innerHTML = `<strong>${service.name}</strong><span class="price">€${service.price}</span>`;
+        btn.innerHTML = `<strong>${serviceDisplayName(service)}</strong><span class="price">€${service.price}</span>`;
         grid.appendChild(btn);
     });
 }
@@ -234,6 +234,11 @@ function findServiceByName(name) {
     if (!name) return null;
     const normalized = name.trim().toLowerCase();
     return services.find((s) => s.name.trim().toLowerCase() === normalized) || null;
+}
+
+function serviceDisplayName(service) {
+    if (!service) return '';
+    return (currentLanguage === 'en' && service.name_en) ? service.name_en : service.name;
 }
 
 /* ===== BOOKING FLOW ===== */
@@ -286,7 +291,7 @@ function selectTime(slot, button) {
 }
 
 function renderReview() {
-    document.getElementById('review-service').textContent = selectedService ? selectedService.name : '';
+    document.getElementById('review-service').textContent = serviceDisplayName(selectedService);
     document.getElementById('review-date').textContent = selectedDate || '';
     document.getElementById('review-time').textContent = selectedTime || '';
     document.getElementById('review-price').textContent = selectedService ? `€${selectedService.price}` : '';
@@ -315,7 +320,7 @@ function confirmBooking() {
                 alert(t('bookingFailed'));
                 return;
             }
-            document.getElementById('confirm-service').textContent = selectedService ? selectedService.name : '';
+            document.getElementById('confirm-service').textContent = serviceDisplayName(selectedService);
             document.getElementById('confirm-date').textContent = selectedDate;
             document.getElementById('confirm-time').textContent = selectedTime;
             goTo('page-confirmed');
