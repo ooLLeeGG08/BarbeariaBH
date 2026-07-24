@@ -5,20 +5,37 @@ client-supplied reviews below (see index.html's #reviews section) name
 "Barbershop Donk" and barbers "Paulo and Danila" — real customer quotes,
 kept verbatim, even though they predate/differ from the confirmed name.
 
-TODO: service descriptions and durations are placeholders: the service
-list itself (names and prices) was confirmed by the client as "same as
-noble website for now", but noble's site only ever had names and prices —
-no descriptions or durations — so those two fields are estimates pending
-real client input.
+Real service names/prices confirmed by the client (from the shop's actual
+price list). `duration_minutes` is still an estimate — not provided by the
+client — and `description` is empty for the same reason.
+
+`featured: True` marks the services shown on the front-page marketing
+section (a short, curated list — see index.html's #services). The full
+list (every service below, featured or not) is shown in the booking flow's
+service picker (#page-service's grid), so a customer can always book
+anything from there even if it's not teased on the front page.
+
+TODO: a "Hair Treatments" category from the client's price list (Men's/
+Women's hair straightening, facial cleansing/mask, hair washes, hydration
+treatment, body hair bleaching, full hair coloring) is not included below
+yet — the client's price list didn't show prices for that category. Get
+those prices before adding them.
 """
 
 SERVICES = [
-    {"id": "classic-haircut", "name": "Corte clássico", "description": "", "price": 12, "duration_minutes": 30},
-    {"id": "clipper-haircut", "name": "Corte máquina", "description": "", "price": 10, "duration_minutes": 20},
-    {"id": "fade-haircut", "name": "Corte degradê", "description": "", "price": 14, "duration_minutes": 30},
-    {"id": "haircut-beard", "name": "Corte e barba", "description": "", "price": 20, "duration_minutes": 45},
-    {"id": "beard", "name": "Barba", "description": "", "price": 7, "duration_minutes": 15},
-    {"id": "premium-beard", "name": "Barba premium", "description": "", "price": 10, "duration_minutes": 20},
+    {"id": "simple-haircut", "name": "Corte Simples", "description": "", "price": 12, "duration_minutes": 20, "featured": True},
+    {"id": "haircut-beard", "name": "Corte e Barba", "description": "", "price": 20, "duration_minutes": 45, "featured": True},
+    {"id": "fade-haircut", "name": "Corte Degradê", "description": "", "price": 15, "duration_minutes": 30, "featured": True},
+    {"id": "beard", "name": "Barba", "description": "", "price": 8, "duration_minutes": 15, "featured": True},
+    {"id": "eyebrows", "name": "Sobrancelha", "description": "", "price": 5, "duration_minutes": 10, "featured": True},
+    {"id": "blow-dry", "name": "Brush", "description": "", "price": 15, "duration_minutes": 30, "featured": True},
+    {"id": "hair-sealing", "name": "Selagem", "description": "", "price": 20, "duration_minutes": 60, "featured": False},
+    {"id": "platinum-bleach", "name": "Platina", "description": "", "price": 50, "duration_minutes": 90, "featured": False},
+    {"id": "highlights", "name": "Madeixas", "description": "", "price": 40, "duration_minutes": 90, "featured": False},
+    {"id": "lip-wax", "name": "Buço", "description": "", "price": 5, "duration_minutes": 10, "featured": False},
+    {"id": "nose-wax", "name": "Cera Nariz", "description": "", "price": 5, "duration_minutes": 10, "featured": False},
+    {"id": "ear-wax", "name": "Cera Ouvido", "description": "", "price": 5, "duration_minutes": 10, "featured": False},
+    {"id": "henna-eyebrows", "name": "Sobrancelha Henna", "description": "", "price": 10, "duration_minutes": 15, "featured": False},
 ]
 
 # Confirmed by the client. Monday=0 ... Sunday=6.

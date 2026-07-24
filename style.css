@@ -358,6 +358,16 @@ button {
     padding: 20px 0;
 }
 
+.see-all-services-link {
+    display: block;
+    margin: 1.4rem auto 0;
+    background: none;
+    border: none;
+    color: var(--tan);
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
 /* ===== HAIRSTYLE FINDER ===== */
 .hairstyle-card {
     max-width: 460px;

@@ -6,6 +6,7 @@ const LANG = {
         bookOnline: 'Marcar online', floatingBook: 'Marcar',
         heroTagline: 'Cortes · Barba · Estilo — Porto',
         servicesTitle: 'Serviços', loadingServices: 'A carregar serviços...',
+        seeAllServices: 'Ver todos os serviços',
         findStyleTitle: 'Encontra o Teu Corte',
         consentText: 'A tua foto é enviada a um modelo de terceiros para análise, não é guardada no nosso servidor e é descartada assim que recebemos a resposta.',
         consentAccept: 'Aceito, continuar',
@@ -54,6 +55,7 @@ const LANG = {
         bookOnline: 'Book online', floatingBook: 'Book',
         heroTagline: 'Haircuts · Beards · Style — Porto',
         servicesTitle: 'Services', loadingServices: 'Loading services...',
+        seeAllServices: 'See all services',
         findStyleTitle: 'Find My Hairstyle',
         consentText: 'Your photo is sent to a third-party model for analysis, is not stored on our server, and is discarded once we receive the response.',
         consentAccept: 'I accept, continue',
@@ -193,7 +195,7 @@ function fetchServices() {
 function renderServiceList() {
     const list = document.getElementById('service-list');
     list.innerHTML = '';
-    services.forEach((service) => {
+    services.filter((service) => service.featured).forEach((service) => {
         const li = document.createElement('li');
         li.className = 'service-row';
         li.innerHTML = `

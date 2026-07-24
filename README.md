@@ -70,7 +70,8 @@ Serves the site at `http://localhost:8080`.
 
 ## TODO before launch
 
-- Confirm service descriptions and durations — the current list reuses noble's names/prices as instructed, but has no real descriptions or durations yet.
+- Real service names/prices are in from the client's actual price list (`config.py`'s `SERVICES`), but descriptions and durations are still estimates — not provided.
+- The client's price list also has a "Hair Treatments" category (hair straightening, facial cleansing/mask, hair washes, hydration, body hair bleaching, full coloring) with no visible prices — get those and add them to `config.py`.
 - WhatsApp number (`config.py`'s `BUSINESS_INFO.whatsapp`) is assumed to be the same as the phone number — confirm with the client.
 - `.env` and `credentials.json` are already set up locally with real `GEMINI_API_KEY`, `CALENDAR_ID` (`alexgondar08@gmail.com`), and Google service-account credentials — both real integrations (Calendar availability, Gemini hairstyle analysis) have been verified working end-to-end.
 
