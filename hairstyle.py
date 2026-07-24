@@ -66,7 +66,10 @@ def analyze_hairstyle(image_bytes, mime_type, preferences=None, language="pt"):
     )
     resp.raise_for_status()
     data = resp.json()
-    text = data['candidates'][0]['content']['parts'][0]['text']
+    try:
+        text = data['candidates'][0]['content']['parts'][0]['text']
+    except (KeyError, IndexError):
+        return {"status": "error", "recommendations": []}
     return _parse_result(text)
 
 

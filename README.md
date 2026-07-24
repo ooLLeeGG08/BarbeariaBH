@@ -66,7 +66,7 @@ Serves the site at `http://localhost:8080`.
 | `/api/services` | GET | List configured services (from `config.py`) |
 | `/api/slots?date=YYYY-MM-DD` | GET | List available 30-minute slots for a date |
 | `/api/book` | POST | Book a slot (`date`, `time`, `service`, optional `name`) |
-| `/api/hairstyle` | POST | Upload a photo (`photo` form field, plus optional `language`, `maintenance`, `beard`, `length_goal`) for a Claude-powered haircut recommendation. Rate-limited to 5 requests/hour per IP. |
+| `/api/hairstyle` | POST | Upload a photo (`photo` form field, plus optional `language`, `maintenance`, `beard`, `length_goal`) for a Gemini-powered haircut recommendation. Rate-limited to 5 requests/hour per IP. |
 
 ## TODO before launch
 

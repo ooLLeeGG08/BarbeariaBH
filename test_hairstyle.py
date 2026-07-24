@@ -51,6 +51,17 @@ class AnalyzeHairstyleTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 hairstyle.analyze_hairstyle(b'fake-bytes', 'image/jpeg')
 
+    def test_falls_back_gracefully_when_response_has_no_candidates(self):
+        mock_response = MagicMock()
+        mock_response.json.return_value = {'promptFeedback': {'blockReason': 'SAFETY'}}
+        mock_response.raise_for_status.return_value = None
+
+        with patch.dict('os.environ', {'GEMINI_API_KEY': 'test-key'}):
+            with patch('hairstyle.requests.post', return_value=mock_response):
+                result = hairstyle.analyze_hairstyle(b'fake-bytes', 'image/jpeg')
+
+        self.assertEqual(result, {"status": "error", "recommendations": []})
+
 
 if __name__ == '__main__':
     unittest.main()
