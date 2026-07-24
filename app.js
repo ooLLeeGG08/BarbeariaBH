@@ -130,6 +130,11 @@ function setLanguage(lang) {
         btn.setAttribute('aria-current', btn.getAttribute('data-lang') === lang ? 'true' : 'false');
     });
     document.documentElement.setAttribute('lang', lang);
+
+    if (services.length > 0) {
+        renderServiceList();
+        renderServiceGrid();
+    }
 }
 
 function toggleNav() {
