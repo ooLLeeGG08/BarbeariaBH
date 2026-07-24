@@ -7,6 +7,7 @@ const LANG = {
         heroTagline: 'Cortes · Barba · Estilo — Porto',
         servicesTitle: 'Serviços', loadingServices: 'A carregar serviços...',
         seeAllServices: 'Ver todos os serviços',
+        categoryHaircutsBeard: 'Cortes e Barba', categoryGrooming: 'Cuidados Pessoais', categoryHairTreatments: 'Tratamentos Capilares',
         findStyleTitle: 'Encontra o Teu Corte',
         consentText: 'A tua foto é enviada a um modelo de terceiros para análise, não é guardada no nosso servidor e é descartada assim que recebemos a resposta.',
         consentAccept: 'Aceito, continuar',
@@ -56,6 +57,7 @@ const LANG = {
         heroTagline: 'Haircuts · Beards · Style — Porto',
         servicesTitle: 'Services', loadingServices: 'Loading services...',
         seeAllServices: 'See all services',
+        categoryHaircutsBeard: 'Haircuts and Beard Services', categoryGrooming: 'Grooming Services', categoryHairTreatments: 'Hair Treatments',
         findStyleTitle: 'Find My Hairstyle',
         consentText: 'Your photo is sent to a third-party model for analysis, is not stored on our server, and is discarded once we receive the response.',
         consentAccept: 'I accept, continue',
@@ -212,16 +214,37 @@ function renderServiceList() {
     });
 }
 
+const SERVICE_CATEGORY_ORDER = ['haircuts_beard', 'grooming', 'hair_treatments'];
+const SERVICE_CATEGORY_LANG_KEYS = {
+    haircuts_beard: 'categoryHaircutsBeard',
+    grooming: 'categoryGrooming',
+    hair_treatments: 'categoryHairTreatments',
+};
+
+function categoryLabel(category) {
+    return t(SERVICE_CATEGORY_LANG_KEYS[category] || category);
+}
+
 function renderServiceGrid() {
     const grid = document.getElementById('service-grid');
     grid.innerHTML = '';
-    services.forEach((service) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'service-card';
-        btn.onclick = () => selectService(service.id);
-        btn.innerHTML = `<strong>${serviceDisplayName(service)}</strong><span class="price">€${service.price}</span>`;
-        grid.appendChild(btn);
+    SERVICE_CATEGORY_ORDER.forEach((category) => {
+        const group = services.filter((service) => service.category === category);
+        if (group.length === 0) return;
+
+        const heading = document.createElement('h4');
+        heading.className = 'service-category-heading';
+        heading.textContent = categoryLabel(category);
+        grid.appendChild(heading);
+
+        group.forEach((service) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'service-card';
+            btn.onclick = () => selectService(service.id);
+            btn.innerHTML = `<strong>${serviceDisplayName(service)}</strong><span class="price">€${service.price}</span>`;
+            grid.appendChild(btn);
+        });
     });
 }
 

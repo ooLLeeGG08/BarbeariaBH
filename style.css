@@ -693,6 +693,19 @@ button {
     white-space: nowrap;
 }
 
+.service-category-heading {
+    font-family: var(--font-display);
+    color: var(--sienna);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 1.6rem 0 0.4rem;
+}
+
+.service-category-heading:first-child {
+    margin-top: 0;
+}
+
 .date-input, .name-input {
     width: 100%;
     padding: 12px;
