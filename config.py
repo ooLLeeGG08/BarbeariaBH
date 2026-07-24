@@ -15,11 +15,12 @@ list (every service below, featured or not) is shown in the booking flow's
 service picker (#page-service's grid), so a customer can always book
 anything from there even if it's not teased on the front page.
 
-TODO: a "Hair Treatments" category from the client's price list (Men's/
-Women's hair straightening, facial cleansing/mask, hair washes, hydration
-treatment, body hair bleaching, full hair coloring) is not included below
-yet — the client's price list didn't show prices for that category. Get
-those prices before adding them.
+TODO: "Tintura Global" (full hair coloring) is priced at €5 per the
+client's price list, but the transcription tool itself flagged this as
+"unusually low and may be incomplete" — every other treatment in this
+category costs €5-80, and full hair coloring is normally one of the more
+involved/expensive services, not the cheapest. Confirm this price with
+the client before launch.
 """
 
 SERVICES = [
@@ -36,6 +37,17 @@ SERVICES = [
     {"id": "nose-wax", "name": "Cera Nariz", "description": "", "price": 5, "duration_minutes": 10, "featured": False},
     {"id": "ear-wax", "name": "Cera Ouvido", "description": "", "price": 5, "duration_minutes": 10, "featured": False},
     {"id": "henna-eyebrows", "name": "Sobrancelha Henna", "description": "", "price": 10, "duration_minutes": 15, "featured": False},
+    {"id": "straightening-men", "name": "Alisamento Homem", "description": "", "price": 20, "duration_minutes": 60, "featured": False},
+    {"id": "straightening-women", "name": "Alisamento Mulher (desde)", "description": "", "price": 80, "duration_minutes": 120, "featured": False},
+    {"id": "facial-cleanse", "name": "Limpeza Facial", "description": "", "price": 5, "duration_minutes": 20, "featured": False},
+    {"id": "facial-mask", "name": "Máscara Facial", "description": "", "price": 5, "duration_minutes": 20, "featured": False},
+    {"id": "hair-wash-men", "name": "Lavagem Cabelo Homem", "description": "", "price": 5, "duration_minutes": 15, "featured": False},
+    {"id": "hair-wash-women", "name": "Lavagem Cabelo Mulher", "description": "", "price": 8, "duration_minutes": 20, "featured": False},
+    {"id": "wash-and-blow-dry", "name": "Lavagem + Brush", "description": "", "price": 20, "duration_minutes": 45, "featured": False},
+    {"id": "hair-hydration", "name": "Hidratação Cabelo", "description": "", "price": 5, "duration_minutes": 20, "featured": False},
+    {"id": "body-hair-bleach", "name": "Banho de Lua", "description": "", "price": 10, "duration_minutes": 30, "featured": False},
+    # TODO: confirm this price with the client — see module docstring.
+    {"id": "full-coloring", "name": "Tintura Global", "description": "", "price": 5, "duration_minutes": 90, "featured": False},
 ]
 
 # Confirmed by the client. Monday=0 ... Sunday=6.
