@@ -2,13 +2,13 @@
 
 Marketing site for Barbearia BH, a barbershop in Porto, Portugal: browse services, book an
 appointment (synced to Google Calendar), and get an AI-powered haircut recommendation from a
-selfie via the Anthropic Messages API.
+selfie via the Google Gemini API.
 
 ## Stack
 
 - Backend: Flask (`server.py`)
 - Calendar sync: Google Calendar API via a service account (`booking.py`)
-- Hairstyle analysis: Anthropic Messages API, `claude-opus-4-8` (`hairstyle.py`)
+- Hairstyle analysis: Google Gemini API, `gemini-flash-latest` (`hairstyle.py`)
 - Frontend: static HTML/CSS/JS (`index.html`, `style.css`, `app.js`)
 
 ## Setup
@@ -27,12 +27,12 @@ pip install -r requirements.txt
 This file is gitignored and must be created locally (see `.env.example`):
 
 ```
-ANTHROPIC_API_KEY=your-anthropic-api-key
+GEMINI_API_KEY=your-gemini-api-key
 CALENDAR_ID=the-calendar-id-to-book-into
 TIMEZONE=Europe/Lisbon
 ```
 
-- **ANTHROPIC_API_KEY** — get one from the [Anthropic Console](https://console.anthropic.com/).
+- **GEMINI_API_KEY** — get one from [Google AI Studio](https://aistudio.google.com/apikey).
 - **CALENDAR_ID** — the Google Calendar to create bookings in (a Gmail address, or `primary` to default to the service account's own calendar).
 - **TIMEZONE** — IANA timezone name used for booked events (default `Europe/Lisbon`).
 
@@ -81,7 +81,7 @@ The repo includes a `render.yaml` blueprint that defines the web service (`gunic
 
 1. On [Render](https://dashboard.render.com/), **New > Blueprint**, and connect this repo.
 2. Render reads `render.yaml` and creates the service, prompting for the env vars marked `sync: false`:
-   - `ANTHROPIC_API_KEY`
+   - `GEMINI_API_KEY`
    - `CALENDAR_ID`
    - `GOOGLE_CREDENTIALS_JSON` — since `credentials.json` isn't in the repo, paste its **entire file contents** as the value of this env var instead. `booking.py` reads this var first and falls back to a local `credentials.json` file if it's not set, so local dev is unaffected.
 3. Deploy. Render builds with `pip install -r requirements.txt` and starts with `gunicorn server:app --bind 0.0.0.0:$PORT`.
