@@ -73,7 +73,7 @@ Serves the site at `http://localhost:8080`.
 - Real service names/prices are in from the client's actual price list (`config.py`'s `SERVICES`, 23 services), but descriptions and durations are still estimates — not provided.
 - **Confirm the "Tintura Global" (full hair coloring) price** — the client's price list shows €5, but the transcription tool itself flagged this as implausibly low compared to every other treatment in its category (€5-80). Likely a transcription error or an incomplete price.
 - WhatsApp number (`config.py`'s `BUSINESS_INFO.whatsapp`) is assumed to be the same as the phone number — confirm with the client.
-- `.env` and `credentials.json` are already set up locally with real `GEMINI_API_KEY`, `CALENDAR_ID` (`alexgondar08@gmail.com`), and Google service-account credentials — both real integrations (Calendar availability, Gemini hairstyle analysis) have been verified working end-to-end.
+- `.env` and `credentials.json` are already set up locally with real `GEMINI_API_KEY`, `CALENDAR_ID` (`paulobarbershopbh@gmail.com`), and Google service-account credentials — both real integrations (Calendar availability, Gemini hairstyle analysis) have been verified working end-to-end.
 
 ## Deploying to Render
 
