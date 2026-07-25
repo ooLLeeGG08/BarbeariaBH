@@ -200,20 +200,25 @@ button {
 /* ===== PERSISTENT BOOKING CTA ===== */
 .booking-cta {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    right: 20px;
+    bottom: 20px;
     z-index: 50;
-    width: 100%;
-    padding: 16px;
+    width: 84px;
+    height: 84px;
+    padding: 0;
     border: none;
+    border-radius: 50%;
     background: var(--ink);
     color: var(--paper);
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    border-top: 2px solid var(--sienna);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
 
 /* ===== PAGES ===== */
@@ -794,16 +799,5 @@ button {
 @media (min-width: 720px) {
     :root {
         --container-max: 720px;
-    }
-
-    .booking-cta {
-        left: auto;
-        right: 24px;
-        bottom: 24px;
-        width: auto;
-        padding: 16px 32px;
-        border-radius: 999px;
-        border-top: none;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
     }
 }
