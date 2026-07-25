@@ -69,8 +69,8 @@ BUSINESS_HOURS = {
 BUSINESS_INFO = {
     "name": "Barbearia BH",
     "address": "Rua de Costa Cabral 82, 4200-129 Porto, Portugal",
-    "phone": "+351 914 520 888",
+    "phone": "+351 925 749 318",
     "instagram": "https://instagram.com/barbeariabhnoporto",
     # WhatsApp assumed to be the same number as `phone` — confirm with the client.
-    "whatsapp": "https://wa.me/351914520888",
+    "whatsapp": "https://wa.me/351925749318",
 }
